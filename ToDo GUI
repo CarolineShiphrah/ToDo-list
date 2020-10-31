@@ -1,0 +1,44 @@
+import PySimpleGUI as sg
+
+layout = ([
+    [sg.Text("Enter the task",font=("Arial", 17)),
+     sg.InputText("", font=("Arial", 17), size=(40,7), key="todo_task"),
+     sg.Button("Add", font=("Arial",17),key="add_values")],
+    [sg.Listbox(values=[], font=("Arial",17), size=(40,7), key="task_values"),
+    sg.Button("Edit", font=("Arial",17)), sg.Button("Delete", font=("Arial",17))]
+])
+
+def add_task(values):
+    task = values['todo_task']
+    list.append(task)
+    window.FindElement("todo_task").Update(value='')
+    window.FindElement("task_values").Update(values=list)
+    window.FindElement("add_values").Update("Add")
+
+def edit_task(values):
+    edit_value = values["task_values"][0]
+    window.FindElement("todo_task").Update(value=edit_value)
+    list.remove(edit_value)
+    window.FindElement("add_values").Update("Save")
+
+def delete_task(values):
+    delete_value = values["task_values"][0]
+    list.remove(delete_value)
+    window.FindElement("task_values").Update(values= list)
+
+list = []
+
+window = sg.Window("ToDo List", layout)
+
+while True:
+    button,values = window.Read()
+    if button == 'add_values':
+        add_task(values)
+    elif button == 'Edit':
+        edit_task(values)
+    elif button == 'Delete':
+        delete_task(values)
+    else:
+        break
+
+window.Close()
